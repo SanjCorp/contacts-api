@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 // conectar DB y arrancar server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
   });
 });

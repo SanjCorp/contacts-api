@@ -1,3 +1,9 @@
+// Antes:
+const Contact = require('../models/contact');
+
+// Si tu carpeta src está así, es correcto. Sino ajusta la ruta:
+const Contact = require('../models/contact'); // relativo al archivo contacts.js
+
 const express = require('express');
 const router = express.Router();
 const Contact = require('../models/contact');
