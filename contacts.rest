@@ -1,43 +1,46 @@
-### GET all contacts
+### Obtener todos los contactos
 GET http://localhost:3000/api/contacts
 Accept: application/json
 
 ###
 
-### GET contact by ID - reemplaza con un _id real después de crear
-GET http://localhost:3000/api/contacts/{{contactId}}
+### Obtener un contacto por ID
+# Cambia <CONTACT_ID> por un id real de MongoDB
+GET http://localhost:3000/api/contacts/<CONTACT_ID>
 Accept: application/json
 
 ###
 
-### POST create new contact
+### Crear un nuevo contacto
 POST http://localhost:3000/api/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Sofia",
-  "lastName": "Fernandez",
-  "email": "sofia@mail.com",
-  "favoriteColor": "pink",
-  "birthday": "1993-06-06"
+  "firstName": "Ricardo",
+  "lastName": "Sanjines",
+  "email": "ricardo@example.com",
+  "favoriteColor": "blue",
+  "birthday": "1995-05-01"
 }
 
 ###
 
-### PUT update contact - reemplaza {{contactId}} con un _id real
-PUT http://localhost:3000/api/contacts/{{contactId}}
+### Actualizar un contacto
+# Cambia <CONTACT_ID> por un id real de MongoDB
+PUT http://localhost:3000/api/contacts/<CONTACT_ID>
 Content-Type: application/json
 
 {
-  "firstName": "Juan",
-  "lastName": "Perez",
-  "email": "juan_new@mail.com",
-  "favoriteColor": "black",
-  "birthday": "1990-01-01"
+  "firstName": "Ricardo",
+  "lastName": "Sanjines",
+  "email": "ricardo_new@example.com",
+  "favoriteColor": "green",
+  "birthday": "1995-05-01"
 }
 
 ###
 
-### DELETE contact - reemplaza {{contactId}} con un _id real
-DELETE http://localhost:3000/api/contacts/{{contactId}}
+### Eliminar un contacto
+# Cambia <CONTACT_ID> por un id real de MongoDB
+DELETE http://localhost:3000/api/contacts/<CONTACT_ID>
 Accept: application/json

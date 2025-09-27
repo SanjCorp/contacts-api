@@ -1,5 +1,5 @@
-const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
 
 const options = {
   definition: {
@@ -7,19 +7,14 @@ const options = {
     info: {
       title: "Contacts API",
       version: "1.0.0",
-      description: "API para gestionar contactos",
+      description: "API para manejar contactos con MongoDB",
     },
-    servers: [
-      {
-        url: "https://contacts-api-3m7q.onrender.com", // tu URL de Render
-      },
-    ],
   },
-  apis: ["./routes/*.js"], // archivos donde defines tus endpoints
+  apis: ["./routes/*.js"], // buscar anotaciones en las rutas
 };
 
-const specs = swaggerJsDoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 module.exports = (app) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
