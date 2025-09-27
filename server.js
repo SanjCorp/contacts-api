@@ -6,23 +6,24 @@ const swaggerSetup = require('./swagger');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 
 // Swagger
 swaggerSetup(app);
 
-// Rutas
+// Routes
 const contactsRouter = require('./routes/contacts');
 app.use('/api/contacts', contactsRouter);
 
-// Ruta de bienvenida
+// Root route
 app.get('/', (req, res) => {
   res.send('🚀 Contacts API is running!');
 });
 
-// Conectar a DB y arrancar server
+// Connect to MongoDB and start server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
 });

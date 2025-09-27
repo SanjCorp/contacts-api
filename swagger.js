@@ -1,20 +1,21 @@
-const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   definition: {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-      title: "Contacts API",
-      version: "1.0.0",
-      description: "API para manejar contactos con MongoDB",
+      title: 'Contacts API',
+      version: '1.0.0',
+      description: 'API to manage contacts'
     },
+    servers: [{ url: '/' }]
   },
-  apis: ["./routes/*.js"], // buscar anotaciones en las rutas
+  apis: ['./routes/*.js']
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+const specs = swaggerJsdoc(options);
 
 module.exports = (app) => {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 };
