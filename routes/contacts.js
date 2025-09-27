@@ -1,27 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { ObjectId } = require('mongodb');
-const { getDb } = require('../db/connect');
+const Contact = require('../models/Contact'); // importa el modelo
 
-// GET all contacts
+// GET todos los contactos
 router.get('/', async (req, res) => {
   try {
-    const result = await getDb().collection('contacts').find().toArray();
-    res.json(result);
+    const contacts = await Contact.find();
+    res.json(contacts);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// GET contact by ID
+// GET contacto por ID
 router.get('/:id', async (req, res) => {
   try {
-    const id = new ObjectId(req.params.id);
-    const result = await getDb().collection('contacts').findOne({ _id: id });
-    if (!result) {
-      return res.status(404).json({ message: 'Contact not found' });
-    }
-    res.json(result);
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(404).json({ message: 'Contact not found' });
+    res.json(contact);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -1,24 +1,19 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
-
 require('dotenv').config();
-const { initDb } = require('./db/connect');
-
-// Middleware
+const express = require('express');
+const connectDB = require('./db/connect');
+const app = express();
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
-
-// Rutas
-const contactsRoutes = require('./routes/contacts');
-app.use('/contacts', contactsRoutes);
-
-// Conexión a Mongo y levantar servidor
-initDb((err) => {
-  if (err) {
-    console.error(err);
-  } else {
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  }
+// rutas
+const contactsRouter = require('./routes/contacts');
+app.use('/api/contacts', contactsRouter);
+// 🔹 Ruta de bienvenida en la raíz
+app.get('/', (req, res) => {
+  res.send('🚀 Contacts API is running!');
+});
+// conectar DB y arrancar server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  });
 });
