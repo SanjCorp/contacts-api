@@ -1,20 +1,56 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const Contact = require('./db/contactModel');
-
-mongoose.connect(process.env.MONGODB_URI);
+const Contact = require('./models/Contact');
 
 const contacts = [
-  { firstName: "Juan", lastName: "Perez", email: "juan@mail.com", favoriteColor: "blue", birthday: "1990-01-01" },
-  { firstName: "Maria", lastName: "Lopez", email: "maria@mail.com", favoriteColor: "red", birthday: "1992-02-02" },
-  { firstName: "Carlos", lastName: "Gomez", email: "carlos@mail.com", favoriteColor: "green", birthday: "1985-03-03" },
-  { firstName: "Ana", lastName: "Torres", email: "ana@mail.com", favoriteColor: "yellow", birthday: "1995-04-04" },
-  { firstName: "Luis", lastName: "Diaz", email: "luis@mail.com", favoriteColor: "purple", birthday: "1988-05-05" }
+  {
+    firstName: "Ricardo",
+    lastName: "Sanjines",
+    email: "ricardo@example.com",
+    favoriteColor: "blue",
+    birthday: "1995-05-01"
+  },
+  {
+    firstName: "Ana",
+    lastName: "Torres",
+    email: "ana@example.com",
+    favoriteColor: "red",
+    birthday: "1997-07-14"
+  },
+  {
+    firstName: "Luis",
+    lastName: "Mendoza",
+    email: "luis@example.com",
+    favoriteColor: "green",
+    birthday: "1992-12-22"
+  },
+  {
+    firstName: "María",
+    lastName: "Fernández",
+    email: "maria@example.com",
+    favoriteColor: "yellow",
+    birthday: "1999-03-09"
+  },
+  {
+    firstName: "Carlos",
+    lastName: "Lopez",
+    email: "carlos@example.com",
+    favoriteColor: "purple",
+    birthday: "1990-11-17"
+  }
 ];
 
-Contact.insertMany(contacts)
-  .then(() => { 
-    console.log("✅ 5 contacts inserted"); 
-    mongoose.connection.close(); 
-  })
-  .catch(err => console.log(err));
+const seedDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    await Contact.deleteMany(); // Limpia la colección
+    await Contact.insertMany(contacts);
+    console.log("✅ Contactos insertados correctamente");
+    process.exit();
+  } catch (err) {
+    console.error("❌ Error en seed:", err.message);
+    process.exit(1);
+  }
+};
+
+seedDB();

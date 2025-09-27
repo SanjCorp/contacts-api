@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../db/contactModel');
+const Contact = require('../models/Contact');
 
-// GET all contacts
+// GET todos los contactos
 router.get('/', async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -11,64 +11,46 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-/**
- * @swagger
- * /api/contacts:
- *   get:
- *     summary: Obtiene todos los contactos
- *     responses:
- *       200:
- *         description: Lista de contactos
- */
-router.get("/", async (req, res) => {
-  const contacts = await Contact.find();
-  res.json(contacts);
-});
 
-// GET contact by ID
+// GET contacto por id
 router.get('/:id', async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
-    if (!contact) return res.status(404).json({ message: 'Contact not found' });
+    if (!contact) return res.status(404).json({ message: "Contacto no encontrado" });
     res.json(contact);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// POST create new contact
+// POST crear contacto
 router.post('/', async (req, res) => {
-  const { firstName, lastName, email, favoriteColor, birthday } = req.body;
-  if (!firstName || !lastName || !email || !favoriteColor || !birthday)
-    return res.status(400).json({ message: 'All fields are required' });
-
-  const contact = new Contact({ firstName, lastName, email, favoriteColor, birthday });
-
   try {
-    const newContact = await contact.save();
-    res.status(201).json({ id: newContact._id });
+    const contact = new Contact(req.body);
+    await contact.save();
+    res.status(201).json(contact);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// PUT update contact
+// PUT actualizar contacto
 router.put('/:id', async (req, res) => {
   try {
-    const updated = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updated) return res.status(404).json({ message: 'Contact not found' });
-    res.status(200).json(updated);
+    const contact = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!contact) return res.status(404).json({ message: "Contacto no encontrado" });
+    res.json(contact);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-// DELETE contact
+// DELETE eliminar contacto
 router.delete('/:id', async (req, res) => {
   try {
-    const deleted = await Contact.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ message: 'Contact not found' });
-    res.status(200).json({ message: 'Contact deleted' });
+    const contact = await Contact.findByIdAndDelete(req.params.id);
+    if (!contact) return res.status(404).json({ message: "Contacto no encontrado" });
+    res.json({ message: "Contacto eliminado" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
