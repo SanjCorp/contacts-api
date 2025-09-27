@@ -4,6 +4,9 @@ const connectDB = require('./db/connect');
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.json());
+const swaggerSetup = require("./swagger");
+swaggerSetup(app);
+
 // rutas
 const contactsRouter = require('./routes/contacts');
 app.use('/api/contacts', contactsRouter);

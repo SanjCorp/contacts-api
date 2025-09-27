@@ -11,6 +11,19 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+/**
+ * @swagger
+ * /api/contacts:
+ *   get:
+ *     summary: Obtiene todos los contactos
+ *     responses:
+ *       200:
+ *         description: Lista de contactos
+ */
+router.get("/", async (req, res) => {
+  const contacts = await Contact.find();
+  res.json(contacts);
+});
 
 // GET contact by ID
 router.get('/:id', async (req, res) => {
