@@ -4,8 +4,8 @@ Accept: application/json
 
 ###
 
-### GET contact by ID (reemplaza ID con uno de tus contactos)
-GET http://localhost:3000/api/contacts/68d7576f6c2ec498b635a0b9
+### GET contact by ID - reemplaza con un _id real después de crear
+GET http://localhost:3000/api/contacts/{{contactId}}
 Accept: application/json
 
 ###
@@ -15,30 +15,29 @@ POST http://localhost:3000/api/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Pedro",
-  "lastName": "Ramirez",
-  "email": "pedro@mail.com",
-  "favoriteColor": "orange",
+  "firstName": "Sofia",
+  "lastName": "Fernandez",
+  "email": "sofia@mail.com",
+  "favoriteColor": "pink",
   "birthday": "1993-06-06"
 }
 
 ###
 
-### PUT update contact (reemplaza ID con uno de tus contactos)
-PUT http://localhost:3000/api/contacts/68d7576f6c2ec498b635a0ba
+### PUT update contact - reemplaza {{contactId}} con un _id real
+PUT http://localhost:3000/api/contacts/{{contactId}}
 Content-Type: application/json
 
 {
-  "firstName": "Pedro",
-  "lastName": "Ramirez",
-  "email": "pedro_new@mail.com",
+  "firstName": "Juan",
+  "lastName": "Perez",
+  "email": "juan_new@mail.com",
   "favoriteColor": "black",
-  "birthday": "1993-06-06"
+  "birthday": "1990-01-01"
 }
 
 ###
 
-### DELETE contact (reemplaza ID con uno de tus contactos)
-DELETE http://localhost:3000/api/contacts/68d7576f6c2ec498b635a0bb
-
+### DELETE contact - reemplaza {{contactId}} con un _id real
+DELETE http://localhost:3000/api/contacts/{{contactId}}
 Accept: application/json
