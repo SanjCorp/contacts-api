@@ -1,8 +1,44 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/Contact'); // Asegúrate de la C mayúscula
+const Contact = require('../models/Contact'); // Correct capitalization
 
-// GET all contacts
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Contact:
+ *       type: object
+ *       required:
+ *         - firstName
+ *         - lastName
+ *         - email
+ *         - favoriteColor
+ *         - birthday
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Auto-generated ID
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
+ *         email:
+ *           type: string
+ *         favoriteColor:
+ *           type: string
+ *         birthday:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /api/contacts:
+ *   get:
+ *     summary: Get all contacts
+ *     responses:
+ *       200:
+ *         description: List of contacts
+ */
 router.get('/', async (req, res) => {
   try {
     const contacts = await Contact.find();
@@ -12,7 +48,23 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET contact by ID
+/**
+ * @swagger
+ * /api/contacts/{id}:
+ *   get:
+ *     summary: Get contact by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Contact found
+ *       404:
+ *         description: Contact not found
+ */
 router.get('/:id', async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
