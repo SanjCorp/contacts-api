@@ -1,47 +1,59 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const contactsRouter = require('./routes/contacts');
 
 dotenv.config();
+
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('✅ MongoDB connected successfully'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// Routes
-const contactsRouter = require('./routes/contacts');
-app.use('/api/contacts', contactsRouter);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('✅ MongoDB connected successfully'))
+.catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Swagger setup
 const swaggerOptions = {
-  definition: {
+  swaggerDefinition: {
     openapi: '3.0.0',
     info: {
       title: 'Contacts API',
       version: '1.0.0',
-      description: 'Contacts API - W02 project'
+      description: 'Contacts API - W02 Project',
     },
     servers: [
-      { url: process.env.NODE_ENV === 'production' ? 'https://contacts-api-3m7q.onrender.com' : 'http://localhost:3000' }
-    ]
+      {
+        url: process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`,
+      },
+    ],
   },
-  apis: ['./routes/*.js']
+  apis: ['./routes/*.js'], // point to your route files
 };
 
-const swaggerSpec = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Routes
+app.use('/api/contacts', contactsRouter);
+
+// Root route
+app.get('/', (req, res) => {
+  res.send('Contacts API is running');
+});
 
 // Start server
-app.listen(port, () => {
-  console.log(`🚀 Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Contact = require('../models/Contact'); // Correct capitalization
+const Contact = require('../models/Contact');
 
 /**
  * @swagger
@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
  * @swagger
  * /api/contacts/{id}:
  *   get:
- *     summary: Get contact by ID
+ *     summary: Get a contact by ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -75,7 +75,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST create a contact
+/**
+ * @swagger
+ * /api/contacts:
+ *   post:
+ *     summary: Create a new contact
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Contact'
+ *     responses:
+ *       201:
+ *         description: Contact created successfully
+ */
 router.post('/', async (req, res) => {
   const { firstName, lastName, email, favoriteColor, birthday } = req.body;
   const contact = new Contact({ firstName, lastName, email, favoriteColor, birthday });
@@ -87,7 +101,29 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT update a contact
+/**
+ * @swagger
+ * /api/contacts/{id}:
+ *   put:
+ *     summary: Update a contact by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Contact'
+ *     responses:
+ *       200:
+ *         description: Contact updated successfully
+ *       404:
+ *         description: Contact not found
+ */
 router.put('/:id', async (req, res) => {
   try {
     const updatedContact = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -98,7 +134,23 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE a contact
+/**
+ * @swagger
+ * /api/contacts/{id}:
+ *   delete:
+ *     summary: Delete a contact by ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Contact deleted successfully
+ *       404:
+ *         description: Contact not found
+ */
 router.delete('/:id', async (req, res) => {
   try {
     const deletedContact = await Contact.findByIdAndDelete(req.params.id);
