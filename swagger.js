@@ -1,6 +1,5 @@
-// swagger.js
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 
 const options = {
   definition: {
@@ -11,14 +10,18 @@ const options = {
       description: 'Contacts API - W02 project'
     },
     servers: [
-      { url: process.env.SWAGGER_SERVER || 'http://localhost:3000' }
-    ]
+      {
+        url: 'https://contacts-api-3m7q.onrender.com', // Cambia al URL de Render
+      },
+    ],
   },
-  apis: ['./routes/*.js']
+  apis: ['./routes/*.js'], // Swagger tomará comentarios de tus rutas
 };
 
-const specs = swaggerJsdoc(options);
+const swaggerSpec = swaggerJSDoc(options);
 
-module.exports = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+const swaggerSetup = (app) => {
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 };
+
+module.exports = swaggerSetup;
