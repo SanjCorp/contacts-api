@@ -1,3 +1,4 @@
+// swagger.js
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -7,9 +8,11 @@ const options = {
     info: {
       title: 'Contacts API',
       version: '1.0.0',
-      description: 'API to manage contacts'
+      description: 'Contacts API - W02 project'
     },
-    servers: [{ url: '/' }]
+    servers: [
+      { url: process.env.SWAGGER_SERVER || 'http://localhost:3000' }
+    ]
   },
   apis: ['./routes/*.js']
 };

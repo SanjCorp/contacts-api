@@ -1,0 +1,46 @@
+### Obtener todos los contactos
+GET http://localhost:3000/api/contacts
+Accept: application/json
+
+###
+
+### Obtener un contacto por ID
+# Cambia <CONTACT_ID> por un id real de MongoDB
+GET http://localhost:3000/api/contacts/<CONTACT_ID>
+Accept: application/json
+
+###
+
+### Crear un nuevo contacto
+POST http://localhost:3000/api/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Ricardo",
+  "lastName": "Sanjines",
+  "email": "ricardo@example.com",
+  "favoriteColor": "blue",
+  "birthday": "1995-05-01"
+}
+
+###
+
+### Actualizar un contacto
+# Cambia <CONTACT_ID> por un id real de MongoDB
+PUT http://localhost:3000/api/contacts/<CONTACT_ID>
+Content-Type: application/json
+
+{
+  "firstName": "Ricardo",
+  "lastName": "Sanjines",
+  "email": "ricardo_new@example.com",
+  "favoriteColor": "green",
+  "birthday": "1995-05-01"
+}
+
+###
+
+### Eliminar un contacto
+# Cambia <CONTACT_ID> por un id real de MongoDB
+DELETE http://localhost:3000/api/contacts/<CONTACT_ID>
+Accept: application/json

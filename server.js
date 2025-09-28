@@ -1,27 +1,18 @@
+// server.js
 require('dotenv').config();
 const express = require('express');
 const connectDB = require('./db/connect');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const swaggerSetup = require('./swagger');
 
+const app = express();
 app.use(express.json());
 
-// Swagger setup
-const swaggerSetup = require("./swagger");
 swaggerSetup(app);
+app.use('/api/contacts', require('./routes/contacts'));
 
-// Rutas
-const contactsRouter = require('./routes/contacts');
-app.use('/api/contacts', contactsRouter);
+app.get('/', (req, res) => res.send('🚀 Contacts API is running!'));
 
-// Ruta de bienvenida
-app.get('/', (req, res) => {
-  res.send('🚀 Contacts API is running!');
-});
-
-// Conectar DB y arrancar servidor
+const PORT = process.env.PORT || 3000;
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  });
+  app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
 });
